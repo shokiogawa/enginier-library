@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/*--------------------------------------*
+ * foundation
+ *--------------------------------------*/
+@import './foundation/mediaquery';
+@import './foundation/base';
+@import './foundation/variable';
+// @import './foundation/normalize';
+
+/*--------------------------------------*
+ * layout
+ *--------------------------------------*/
+@import './layout/header';
+@import './layout/footer';
+@import './layout/side';
+
+/*--------------------------------------*
+ * object
+ *--------------------------------------*/
+@import './object/component/card';
+@import './object/project/top';

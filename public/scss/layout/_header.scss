@@ -1,0 +1,16 @@
+@charset "utf-8";
+.l-header {
+  background-color: #3b4675;
+  height: 100px;
+  & .header-area {
+    text-align: center;
+    line-height: 100px;
+    &__title {
+      font-size: 3rem;
+      & .link {
+        text-decoration: none;
+        color: white;
+      }
+    }
+  }
+}

@@ -3,4 +3,9 @@ const nextConfig = {
   reactStrictMode: true,
 }
 
-module.exports = nextConfig
+module.exports = {
+  experimental: { esmExternals: true },
+  images: {
+    domains: ['images.microcms-assets.io'],
+  },
+}

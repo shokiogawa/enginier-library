@@ -1,0 +1,39 @@
+{
+  "contents": [
+    {
+      "id": "dt65n1qkkx",
+      "createdAt": "2022-07-02T00:28:46.114Z",
+      "updatedAt": "2022-07-02T00:32:34.675Z",
+      "publishedAt": "2022-07-02T00:28:46.114Z",
+      "revisedAt": "2022-07-02T00:28:46.114Z",
+      "name": "エンジニアライフ"
+    },
+    {
+      "id": "hgduttyc4",
+      "createdAt": "2022-07-02T00:30:17.804Z",
+      "updatedAt": "2022-07-02T00:32:40.267Z",
+      "publishedAt": "2022-07-02T00:30:17.804Z",
+      "revisedAt": "2022-07-02T00:30:17.804Z",
+      "name": "フロントエンド"
+    },
+    {
+      "id": "ru9jqoyil",
+      "createdAt": "2022-07-02T00:30:32.908Z",
+      "updatedAt": "2022-07-02T00:30:32.908Z",
+      "publishedAt": "2022-07-02T00:30:32.908Z",
+      "revisedAt": "2022-07-02T00:30:32.908Z",
+      "name": "バックエンド"
+    },
+    {
+      "id": "stpbn9lffwbe",
+      "createdAt": "2022-07-02T00:29:00.286Z",
+      "updatedAt": "2022-07-02T00:32:30.561Z",
+      "publishedAt": "2022-07-02T00:29:00.286Z",
+      "revisedAt": "2022-07-02T00:29:23.347Z",
+      "name": "インフラ"
+    }
+  ],
+  "totalCount": 4,
+  "offset": 0,
+  "limit": 10
+}
