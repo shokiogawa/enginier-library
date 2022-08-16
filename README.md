@@ -32,3 +32,36 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## Scssの設定
+1. scssのインストール
+```
+yarn add sass --dev
+```
+2. .cssファイルをインポートしている部分をstyle.scssに変換。(_app.tsx内)
+
+## Scssのディレクトリ構造
+### foundation
+サイト全体のデフォルトスタイルを管理するディレクトリ。
+
+### layout
+各ページを構成する、ヘッダー、メインコンテンツエリア、コンテナ、フッターなどのレイアウトに関するスタイルをエリアごとに管理。
+
+### object
+繰り返し色んな場所で使うパーツやブロックをすべてObject
+#### component
+最低限の機能を持ったもの（button.scssやtxt.scssなど）
+#### project
+プロジェクト固有の塊（about.scssやlogin.scssなど）
+#### utility
+細かい調整のためのスタイル
+
+## Scssの命名規則はBEM
+```
+Block（１つのコンポーネント）__Element（子要素）--Modifier（バリエーション）
+```
+
+x　block__element__element
+○　block__element--element
+
+# enginier-library
