@@ -9,13 +9,29 @@ import { Article } from '../types/Article'
 import { useEffect, useState } from 'react'
 import { OutLine } from '../components/OutLine '
 import { changeFormatDate } from '../utility/DateFormat'
+import { useRouter } from 'next/router'
+import useSWR from 'swr'
 
 
 type Props = {
-  articleDetail: Article
+  staticArticleDetail: Article
 }
-const ArticleDetail: NextPage<Props> = ({ articleDetail }) => {
 
+const ArticleDetail: NextPage<Props> = ({ staticArticleDetail }) => {
+
+  const fetcher = async ():Promise<Article> => {
+    const router = useRouter()
+    const idQuery = router.query
+    const id = idQuery.id as string
+    const articleDetail = await fetchArticleData(id)
+    return articleDetail
+  }
+  const {data: articleDetail, mutate} = useSWR('articleDetail', fetcher,{
+    fallbackData: staticArticleDetail
+  })
+  useEffect(() => {
+    mutate()
+  }, [])
   if (!articleDetail) return <></>
   return (
     <>
@@ -62,7 +78,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const articleDetail = await fetchArticleData(id)
   return {
     props: {
-      articleDetail: articleDetail,
+      staticArticleDetail: articleDetail,
     },
+    revalidate: 10,
   }
 }

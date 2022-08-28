@@ -47,5 +47,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     props: {
       articleListByCategory: articleListByCategory.contents,
     },
+    revalidate:10,
   }
 }

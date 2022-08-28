@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { Article } from '../types/Article'
 
 type Props = {
-  articleList: [Article]
+  articleList: Article[]
 }
 export const ArticleList: NextPage<Props> = ({ articleList }) => {
   return (

@@ -49,5 +49,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     props: {
       articleListBytag: articleListBytag.contents,
     },
+    revalidate:10,
   }
 }
