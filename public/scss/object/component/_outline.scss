@@ -20,7 +20,10 @@
       & .outline--H2{
         & .text{
           display: inline-block;
+          text-decoration: none;
+          color: black;
           &:hover{
+            color: #9dafff;
             text-decoration: underline;
           }
         }
