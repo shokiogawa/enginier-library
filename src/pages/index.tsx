@@ -14,6 +14,7 @@ type Props = {
 }
 const Home: NextPage<Props> = ({ newArticleList, categoryList }) => {
   if (!newArticleList || !categoryList) return <></>
+  console.log(process.env.NEXT_PUBLIC_APIKEY!)
   return (
     <section className="article-area">
       <div className="article-area__category">
