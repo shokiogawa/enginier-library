@@ -17,14 +17,6 @@ const Home: NextPage<Props> = ({ newArticleList, categoryList }) => {
   return (
     <section className="article-area">
       <div className="article-area__category">
-        {/* <ul className="items">
-          {categoryList &&
-            categoryList.map((category) => (
-              <Link key={category.id} href={`category/${category.id}`}>
-                <li className="item">{category.name}</li>
-              </Link>
-            ))}
-        </ul> */}
       </div>
       <h2 className="article-area__title">最新記事一覧</h2>
       <ArticleList articleList={newArticleList} />
