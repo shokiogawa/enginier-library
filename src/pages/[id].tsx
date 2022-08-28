@@ -8,6 +8,7 @@ import {
 import { Article } from '../types/Article'
 import { useEffect, useState } from 'react'
 import { OutLine } from '../components/OutLine '
+import { changeFormatDate } from '../utility/DateFormat'
 
 
 type Props = {
@@ -22,7 +23,7 @@ const ArticleDetail: NextPage<Props> = ({ articleDetail }) => {
       <span className="categoryS">{articleDetail.category.name}</span>
         <div className="article-area__detail-first">
           <h2 className="title">{articleDetail.title}</h2>
-          <p className="createdAt">{articleDetail.createdAt}</p>
+          <p className="createdAt">{changeFormatDate(articleDetail.createdAt, "YYYY年MM月DD日")}</p>
           {/* <img src="/images/DSC_3163.JPG" alt="画像" className="image" /> */}
           <div className="image">
             <Image
