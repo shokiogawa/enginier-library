@@ -19,7 +19,9 @@
     }
   }
   &__detail-first {
-    padding: 30px;
+    @include md{
+      padding: 30px;
+    }
     & .tag {
       background-color: orange;
       font-size: 12px;

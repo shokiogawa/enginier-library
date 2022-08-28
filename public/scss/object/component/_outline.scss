@@ -1,8 +1,11 @@
 @charset "utf-8";
 .c-outline{
-  margin: 0px 30px 50px;
+  margin: 0px 0px 50px;
   border: 2px solid ;
   border-color: #cfd8ff;
+  @include md{
+    margin: 0px 30px 50px;
+  }
   &__title{
     text-align: center;
     font-size: 23px;

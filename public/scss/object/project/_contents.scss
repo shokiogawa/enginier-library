@@ -1,0 +1,25 @@
+.article-area{
+  &__detail-content{
+    @include md{
+      padding: 0px 30px;
+
+    }
+    h2{
+      margin: 30px 0px 20px;
+      letter-spacing: 5px;
+      padding: 15px;
+      font-size: 22px;
+      background-color: #3b4675;
+      color: white;
+    }
+    h3{
+      letter-spacing: 2px;
+      font-weight: 600;
+      padding: 20px 0px;
+      font-size: 23px;
+    }
+    P{
+      letter-spacing: 1.2px;
+    }
+  }
+}
