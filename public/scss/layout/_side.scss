@@ -29,6 +29,7 @@
       margin-bottom: 40px;
     }
     & .prof-detail {
+      cursor: pointer;
       text-align: center;
       border-radius: 15px;
       background-color: orange;
@@ -46,6 +47,7 @@
     & .items {
       padding: 10px;
       & .item {
+        cursor: pointer;
         background-color: whitesmoke;
         padding: 5px;
         margin-bottom: 5px;
@@ -61,6 +63,7 @@
     & .items {
       margin-top: 10px;
       & .item {
+        cursor: pointer;
         font-size: 16px;
         margin: 0px 10px 10px 0px;
         background-color: #b5b5b5;

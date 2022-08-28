@@ -1,15 +1,12 @@
 @charset "utf-8";
 .c-card {
+  cursor: pointer;
   background: #fff;
-  // border-radius: 5px;
   box-shadow: 0 2px 5px #ccc;
   margin-bottom: 1px;
   position: relative;
-  // height: 100%;
   &__thumnail {
-    // height: 60%;
     width: 100%;
-    // border-radius: 5px;
   }
   &__title {
     font-size: 16px;
@@ -21,23 +18,10 @@
     }
     font-weight: bold;
     padding: 15px;
-    // height: 20%;
-    // font-size: 2rem;
-    // position: absolute;
-    // top: 0;
-    // right: 0;
-    // bottom: 0;
-    // left: 0;
-    // margin: auto;
-    // width: 80%;
-    // height: 3.2rem;
   }
   &__createdAt {
     text-align: right;
     vertical-align: bottom;
     padding-right: 10px;
-    // position: absolute;
-    // bottom: 10px;
-    // right: 10px;
   }
 }

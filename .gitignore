@@ -34,3 +34,6 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+enginier_library/src/data/microCMS.js
+
+
