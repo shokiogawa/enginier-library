@@ -26,7 +26,7 @@ const ArticleDetail: NextPage<Props> = ({ staticArticleDetail }) => {
     const articleDetail = await fetchArticleData(id)
     return articleDetail
   }
-  const {data: articleDetail, mutate} = useSWR('articleDetail', fetcher,{
+  const {data: articleDetail, mutate} = useSWR(`${id}`, fetcher,{
     fallbackData: staticArticleDetail
   })
   useEffect(() => {

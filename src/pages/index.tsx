@@ -21,7 +21,7 @@ const fetcher = async (): Promise<Article[]> => {
 }
 
 const Home: NextPage<Props> = ({ staticNewArticleList}) => {
-  const {data: articleList, mutate} = useSWR('article_fetcher', fetcher,{
+  const {data: articleList, mutate} = useSWR(`/index`, fetcher,{
     fallbackData: staticNewArticleList
   })
   useEffect(() => {
