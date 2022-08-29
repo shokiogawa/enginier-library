@@ -62,8 +62,10 @@ export const OutLine:NextPage<Props> = ({content})=>{
       <ul className="top">
        {h2List.map((eH2) => (
          <li className={"outline" + "--" + eH2[1].tagName} key={eH2[1].id} id={eH2[1].id}>
-           <span className="number">{eH2[0].toString()}</span>
-           <a href={'#'+ eH2[1].id} className="text">{eH2[1].text}</a>
+           <div className="area">
+             <div className="number">{eH2[0].toString()}</div>
+             <a href={'#'+ eH2[1].id} className="text">{eH2[1].text}</a>
+           </div>
            <ul className="lower">
              {outLineObj!.h3.get(eH2[0])?.map((eH3)=>(
                <li id={eH3.id} key={eH3.id} className={"outline" + "--" + eH3.tagName}>

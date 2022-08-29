@@ -4,15 +4,28 @@ import { useRouter } from 'next/router'
 import { fetchArticleDataListByTag } from '../../api/blog'
 import { fetchTagData } from '../../api/tag'
 import { Article } from '../../types/Article'
+import useSWR from 'swr'
+import { useEffect, useState } from 'react'
 type Props = {
-  articleListBytag: [Article]
+  statsicArticleListBytag: Article[]
 }
-const Tag: NextPage<Props> = ({ articleListBytag }) => {
+const Tag: NextPage<Props> = ({ statsicArticleListBytag }) => {
   const router = useRouter()
-  const tagId = router.query.tag
-  if (!articleListBytag) return <></>
+  const tagId = router.query.tag as string
+  const fetcher = async():Promise<Article[]> =>{
+    const articleListBytag = await fetchArticleDataListByTag(tagId)
+    return articleListBytag.contents
+  }
+  const {data: articleListBytag, mutate} = useSWR(`tag/${tagId}`, fetcher,{
+    fallbackData: statsicArticleListBytag
+  })
   var tagName = ''
-  if (articleListBytag[0]) {
+
+  useEffect(() => {
+    mutate()
+  }, [])
+  if (!articleListBytag) return <></>
+  if (articleListBytag.length !== 0) {
     tagName = articleListBytag[0].tag.filter((tag) => {
       return tag.id === tagId
     })[0].name
@@ -47,7 +60,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const articleListBytag = await fetchArticleDataListByTag(tag)
   return {
     props: {
-      articleListBytag: articleListBytag.contents,
+      statsicArticleListBytag: articleListBytag.contents,
     },
     revalidate:10,
   }
