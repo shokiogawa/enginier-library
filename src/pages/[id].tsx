@@ -19,10 +19,10 @@ type Props = {
 
 const ArticleDetail: NextPage<Props> = ({ staticArticleDetail }) => {
 
+  const router = useRouter()
+  const idQuery = router.query
+  const id = idQuery.id as string
   const fetcher = async ():Promise<Article> => {
-    const router = useRouter()
-    const idQuery = router.query
-    const id = idQuery.id as string
     const articleDetail = await fetchArticleData(id)
     return articleDetail
   }
