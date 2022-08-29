@@ -57,6 +57,9 @@ a:hover img {
   }
   @include lg {
     margin: 0 auto;
+    width: 1000px;
+  }
+  @include xl{
     width: 1200px;
   }
   // justify-content: space-evenly;
