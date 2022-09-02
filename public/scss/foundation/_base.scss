@@ -52,7 +52,9 @@ a:hover img {
   transition: all 0.3s;
 }
 .main {
+  padding: 10px 0px;
   @include md {
+    padding: 50px 0px;
     display: flex;
   }
   @include lg {
@@ -63,5 +65,4 @@ a:hover img {
     width: 1200px;
   }
   // justify-content: space-evenly;
-  padding: 50px 0px;
 }

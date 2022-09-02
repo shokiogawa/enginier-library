@@ -8,11 +8,17 @@
   }
   &__title{
     text-align: center;
-    font-size: 23px;
+    font-size: 15px;
     color: grey;
     padding: 10px;
+    @include sm{
+      font-size: 23px;
+    }
     & .hide{
-      font-size: 20px;
+      font-size: 10px;
+      @include sm{
+        font-size: 20px;
+      }
     }
   }
   &__contents{
@@ -26,6 +32,11 @@
       & .outline--H2{
         & .area{
           display: flex;
+          cursor: pointer;
+          font-size: 15px;
+          @include sm{
+            font-size: 17px;
+          }
           & .text{
             display: inline-block;
             text-decoration: none;
@@ -35,9 +46,6 @@
               text-decoration: underline;
             }
           }
-          cursor: pointer;
-          // padding: 0px 0px 10px;
-          font-size: 17px;
           & .number{
             color: #93a7ff;
             margin: 0px 20px 0px 0px;

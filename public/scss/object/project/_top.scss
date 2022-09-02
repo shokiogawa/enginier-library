@@ -30,8 +30,11 @@
       color: white;
     }
     & .title {
-      text-align: center;
-      font-size: 30px;
+      // text-align: center;
+      font-size: 27px;
+      @include sm{
+        font-size: 30px;
+      }
     }
     & .createdAt {
       text-align: right;
@@ -45,9 +48,11 @@
   }
   &__title {
     text-align: center;
+    font-weight: bold;
+    @include md{
     padding-top: 20px;
     font-size: 20px;
-    font-weight: bold;
+    }
   }
   &__category {
     & .items {
