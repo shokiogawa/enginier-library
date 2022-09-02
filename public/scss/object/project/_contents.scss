@@ -5,21 +5,34 @@
 
     }
     h2{
-      margin: 30px 0px 20px;
-      letter-spacing: 5px;
-      padding: 15px;
-      font-size: 22px;
       background-color: #3b4675;
       color: white;
+      margin: 25px 0px 15px;
+      letter-spacing: 5px;
+      padding: 10px;
+      font-size: 23px;
+      @include md{
+        margin: 30px 0px 20px;
+        letter-spacing: 5px;
+        padding: 15px;
+        font-size: 22px;
+      }
+
     }
     h3{
+      border-bottom: solid 3px #cfd8ff;
       letter-spacing: 2px;
-      font-weight: 600;
-      padding: 20px 0px;
-      font-size: 23px;
+      padding: 10px 0px 2px;
+      margin-bottom: 15px;
+      font-size: 17px;
+      @include md{
+        padding: 20px 0px 2px;
+        margin-bottom: 15px;
+        font-size: 23px;
+      }
     }
     P{
-      letter-spacing: 1.2px;
+      letter-spacing: 1.5px;
     }
   }
 }
