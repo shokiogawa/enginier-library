@@ -48,5 +48,6 @@ export const getStaticProps: GetStaticProps = async () => {
       staticNewArticleList: newArticleList.contents,
       // categoryList: categoryList.contents,
     },
+    revalidate: 10,
   }
 }

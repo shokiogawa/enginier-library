@@ -1,44 +1,12 @@
 {
   "contents": [
     {
-      "id": "dj_8xd3tk",
-      "createdAt": "2022-07-02T01:21:44.109Z",
-      "updatedAt": "2022-07-02T01:21:44.109Z",
-      "publishedAt": "2022-07-02T01:21:44.109Z",
-      "revisedAt": "2022-07-02T01:21:44.109Z",
-      "name": "Fargate"
-    },
-    {
-      "id": "r3zvx0gmo6kf",
-      "createdAt": "2022-07-02T01:21:33.490Z",
-      "updatedAt": "2022-07-02T01:21:33.490Z",
-      "publishedAt": "2022-07-02T01:21:33.490Z",
-      "revisedAt": "2022-07-02T01:21:33.490Z",
-      "name": "c#"
-    },
-    {
       "id": "23l1jye2wa",
       "createdAt": "2022-07-02T01:21:20.702Z",
       "updatedAt": "2022-07-02T01:21:20.702Z",
       "publishedAt": "2022-07-02T01:21:20.702Z",
       "revisedAt": "2022-07-02T01:21:20.702Z",
       "name": "Go"
-    },
-    {
-      "id": "3lzddfbp38ao",
-      "createdAt": "2022-07-02T01:21:11.669Z",
-      "updatedAt": "2022-07-02T01:21:11.669Z",
-      "publishedAt": "2022-07-02T01:21:11.669Z",
-      "revisedAt": "2022-07-02T01:21:11.669Z",
-      "name": "Ruby"
-    },
-    {
-      "id": "r1jq2gbxr6rg",
-      "createdAt": "2022-07-02T01:21:01.441Z",
-      "updatedAt": "2022-07-02T01:21:01.441Z",
-      "publishedAt": "2022-07-02T01:21:01.441Z",
-      "revisedAt": "2022-07-02T01:21:01.441Z",
-      "name": "Mysql"
     },
     {
       "id": "6zbfb2boav",
@@ -57,7 +25,7 @@
       "name": "Flutter"
     }
   ],
-  "totalCount": 7,
+  "totalCount": 3,
   "offset": 0,
   "limit": 10
 }
