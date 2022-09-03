@@ -2,12 +2,13 @@ import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import { ArticleList } from '../../components/ArticleList'
 import { useRouter } from 'next/router'
 import { fetchArticleDataListByTag } from '../../api/blog'
-import { fetchTagData } from '../../api/tag'
+import { fetchTagDataList } from '../../api/tag'
 import { Article } from '../../types/Article'
 import useSWR from 'swr'
 import { useEffect, useState } from 'react'
 import { HeadSeo } from '../../components/HeadSeo'
 import { baseDescription, baseImage, siteName, url } from '../../utility/const'
+import test from 'node:test'
 type Props = {
   statsicArticleListBytag: Article[]
 }
@@ -49,7 +50,7 @@ const Tag: NextPage<Props> = ({ statsicArticleListBytag }) => {
 
 export default Tag
 export const getStaticPaths: GetStaticPaths = async () => {
-  const tags = await fetchTagData()
+  const tags = await fetchTagDataList()
   const paths = tags.contents.map((tag) => {
     return { params: { tag: tag.id } }
   })
@@ -59,12 +60,17 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 }
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const tag = params!.tag as string
-  const articleListBytag = await fetchArticleDataListByTag(tag)
-  return {
-    props: {
-      statsicArticleListBytag: articleListBytag.contents,
-    },
-    revalidate:10,
+  try{
+    const tag = params!.tag as string
+    const articleListBytag = await fetchArticleDataListByTag(tag)
+    return {
+      props: {
+        statsicArticleListBytag: articleListBytag.contents,
+      },
+      revalidate:10,
+    }
+  }catch(err){
+    return {notFound: true}
   }
+
 }
