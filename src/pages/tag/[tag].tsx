@@ -8,6 +8,7 @@ import useSWR from 'swr'
 import { useEffect, useState } from 'react'
 import { HeadSeo } from '../../components/HeadSeo'
 import { baseDescription, baseImage, siteName, url } from '../../utility/const'
+import test from 'node:test'
 type Props = {
   statsicArticleListBytag: Article[]
 }
@@ -59,12 +60,17 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 }
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const tag = params!.tag as string
-  const articleListBytag = await fetchArticleDataListByTag(tag)
-  return {
-    props: {
-      statsicArticleListBytag: articleListBytag.contents,
-    },
-    revalidate:10,
+  try{
+    const tag = params!.tag as string
+    const articleListBytag = await fetchArticleDataListByTag(tag)
+    return {
+      props: {
+        statsicArticleListBytag: articleListBytag.contents,
+      },
+      revalidate:10,
+    }
+  }catch(err){
+    return {notFound: true}
   }
+
 }

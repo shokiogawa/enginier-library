@@ -33,7 +33,7 @@ const ArticleDetail: NextPage<Props> = ({ staticArticleDetail }) => {
   useEffect(() => {
     mutate()
   }, [])
-  if (!articleDetail) return <></>
+  if (!articleDetail || !articleDetail.eyecatch) return <></>
   return (
     <>
     <HeadSeo title={articleDetail.title} description={articleDetail.description} image={articleDetail.eyecatch.url} url={url + router.asPath}/>
@@ -75,12 +75,17 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const id = params?.id as string
-  const articleDetail = await fetchArticleData(id)
-  return {
-    props: {
-      staticArticleDetail: articleDetail,
-    },
-    revalidate: 10,
+  try{
+    const id = params?.id as string
+    const articleDetail = await fetchArticleData(id)
+    return {
+      props: {
+        staticArticleDetail: articleDetail,
+      },
+      revalidate: 10,
+    }
+  }catch(error){
+    return {notFound: true}
   }
+
 }

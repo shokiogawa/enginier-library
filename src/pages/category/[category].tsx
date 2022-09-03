@@ -58,12 +58,17 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const categoryId = params?.category as string
-  const articleListByCategory = await fetchArticleDataListByCategory(categoryId)
-  return {
-    props: {
-      staticArticleListByCategory: articleListByCategory.contents,
-    },
-    revalidate:10,
+  try{
+    const categoryId = params?.category as string
+    const articleListByCategory = await fetchArticleDataListByCategory(categoryId)
+    return {
+      props: {
+        staticArticleListByCategory: articleListByCategory.contents,
+      },
+      revalidate:10,
+    }
+  }catch(err){
+    return {notFound: true}
   }
+
 }
