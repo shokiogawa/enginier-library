@@ -38,8 +38,8 @@ const ArticleDetail: NextPage<Props> = ({ staticArticleDetail }) => {
     <>
     <HeadSeo title={articleDetail.title} description={articleDetail.description} image={articleDetail.eyecatch.url} url={url + router.asPath}/>
       <section className="article-area">
-      <span className="categoryS">{articleDetail.category.name}</span>
-        <div className="article-area__detail-first">
+      <span className="article-area__category">{articleDetail.category.name}</span>
+      <div className="article-area__detail-first">
           <h2 className="title">{articleDetail.title}</h2>
           <p className="createdAt">{changeFormatDate(articleDetail.createdAt, "YYYY年MM月DD日")}</p>
           <div className="image">
@@ -50,13 +50,14 @@ const ArticleDetail: NextPage<Props> = ({ staticArticleDetail }) => {
               layout={'responsive'}
             />
           </div>
-        </div>
-        <OutLine content={articleDetail.content}/>
-        <div className="article-area__detail-content">
+      </div>
+      <OutLine content={articleDetail.content}/>
+      <div className="article-area__detail-content">
           <div
             dangerouslySetInnerHTML={{ __html: articleDetail.content }}
-          ></div>
-        </div>
+          >
+          </div>
+      </div>
       </section>
     </>
   )

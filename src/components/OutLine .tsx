@@ -18,7 +18,7 @@ type Outline = {
   tagName: string
 }
 
-export const OutLine:NextPage<Props> = ({content})=>{
+export const OutLine:React.FC<Props> = ({content})=>{
   const h2Map = new Map<number, Outline>()
   const h3Map = new Map<number, Outline[]>()
   const iniTialValue: OutLineObj = {
@@ -26,6 +26,7 @@ export const OutLine:NextPage<Props> = ({content})=>{
     h3: h3Map,
   }
   const [outLineObj, setOutLineObj] = useState<OutLineObj>(iniTialValue)
+  const [isVisible, setVisible] = useState<boolean>(true)
   useEffect(() => {
     const htmlElement = new DOMParser().parseFromString(
       content,
@@ -57,26 +58,30 @@ export const OutLine:NextPage<Props> = ({content})=>{
   const h2List = Array.from(outLineObj!.h2.entries())
   return (
     <div className="c-outline">
-      <p className="c-outline__title">目次  <span className="hide">[hide]</span></p>
-      <div className="c-outline__contents">
-      <ul className="top">
-       {h2List.map((eH2) => (
-         <li className={"outline" + "--" + eH2[1].tagName} key={eH2[1].id} id={eH2[1].id}>
-           <div className="area">
-             <div className="number">{eH2[0].toString()}</div>
-             <a href={'#'+ eH2[1].id} className="text">{eH2[1].text}</a>
-           </div>
-           <ul className="lower">
-             {outLineObj!.h3.get(eH2[0])?.map((eH3)=>(
-               <li id={eH3.id} key={eH3.id} className={"outline" + "--" + eH3.tagName}>
-                 <a href={"#" + eH3.id} className="text">{eH3.text}</a>
+      <p className="c-outline__title">目次  <span className="hide" onClick={()=>{setVisible(!isVisible)}}>{isVisible ? "[閉じる]" : "[表示]"}</span></p>
+      {isVisible ? 
+            <div className="c-outline__contents">
+            <ul className="top">
+             {h2List.map((eH2) => (
+               <li className={"outline" + "--" + eH2[1].tagName} key={eH2[1].id}>
+                 <div className="area">
+                   <div className="number">{eH2[0].toString()}</div>
+                   <a href={'#'+ eH2[1].id} className="text">{eH2[1].text}</a>
+                 </div>
+                 <ul className="lower">
+                   {outLineObj!.h3.get(eH2[0])?.map((eH3)=>(
+                     <li key={eH3.id} className={"outline" + "--" + eH3.tagName}>
+                       <a href={"#" + eH3.id} className="text">{eH3.text}</a>
+                     </li>
+                   ))}
+                 </ul>
                </li>
              ))}
-           </ul>
-         </li>
-       ))}
-      </ul>
-      </div>
+            </ul>
+            </div>
+            :
+            <></>  
+    }
     </div>          
   )
 }

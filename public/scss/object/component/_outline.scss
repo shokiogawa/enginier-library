@@ -15,7 +15,11 @@
       font-size: 23px;
     }
     & .hide{
+      cursor: pointer;
       font-size: 10px;
+      &:hover{
+        border-bottom: solid #9dafff;
+      }
       @include sm{
         font-size: 20px;
       }

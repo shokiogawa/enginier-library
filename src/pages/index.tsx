@@ -30,8 +30,6 @@ const Home: NextPage<Props> = ({ staticNewArticleList}) => {
     <>
     <HeadSeo title={siteName} description={baseDescription} image={baseImage} url={url + router.asPath}/>
     <section className="article-area">
-      <div className="article-area__category">
-      </div>
       <h2 className="article-area__title">最新記事一覧</h2>
       <ArticleList articleList={articleList} />
     </section>
