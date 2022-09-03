@@ -2,7 +2,7 @@ import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import { ArticleList } from '../../components/ArticleList'
 import { useRouter } from 'next/router'
 import { fetchArticleDataListByTag } from '../../api/blog'
-import { fetchTagData } from '../../api/tag'
+import { fetchTagDataList } from '../../api/tag'
 import { Article } from '../../types/Article'
 import useSWR from 'swr'
 import { useEffect, useState } from 'react'
@@ -50,7 +50,7 @@ const Tag: NextPage<Props> = ({ statsicArticleListBytag }) => {
 
 export default Tag
 export const getStaticPaths: GetStaticPaths = async () => {
-  const tags = await fetchTagData()
+  const tags = await fetchTagDataList()
   const paths = tags.contents.map((tag) => {
     return { params: { tag: tag.id } }
   })

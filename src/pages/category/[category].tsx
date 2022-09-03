@@ -1,7 +1,7 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import { ArticleList } from '../../components/ArticleList'
 import { useRouter } from 'next/router'
-import { fetchCategoryData } from '../../api/category'
+import { fetchCategoryDataList } from '../../api/category'
 import { fetchArticleDataListByCategory } from '../../api/blog'
 import { Article } from '../../types/Article'
 import useSWR from 'swr'
@@ -47,7 +47,7 @@ const Category: NextPage<Props> = ({ staticArticleListByCategory }) => {
 export default Category
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const category = await fetchCategoryData()
+  const category = await fetchCategoryDataList()
   const paths = category.contents.map((category) => {
     return { params: { category: category.id } }
   })
