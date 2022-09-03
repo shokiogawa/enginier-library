@@ -44,7 +44,7 @@ const generateSitemapXml = async():Promise<string> => {
   categories.forEach((category)=>{
     xml += `
     <url>
-      <loc>${url}/${category.id}</loc>
+      <loc>${url}/category/${category.id}</loc>
       <lastmod>${category.revisedAt}</lastmod>
       <priority>0.7</priority>
       <changefreq>monthly</changefreq>
@@ -57,7 +57,7 @@ const generateSitemapXml = async():Promise<string> => {
   tags.forEach((tag)=>{
     xml += `
     <url>
-      <loc>${url}/${tag.id}</loc>
+      <loc>${url}/tag/${tag.id}</loc>
       <lastmod>${tag.revisedAt}</lastmod>
       <priority>0.7</priority>
       <changefreq>monthly</changefreq>
