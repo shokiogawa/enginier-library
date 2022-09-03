@@ -56,6 +56,7 @@ export const OutLine:React.FC<Props> = ({content})=>{
     setOutLineObj(obj)
   }, [])
   const h2List = Array.from(outLineObj!.h2.entries())
+  console.log(outLineObj.h3)
   return (
     <div className="c-outline">
       <p className="c-outline__title">目次  <span className="hide" onClick={()=>{setVisible(!isVisible)}}>{isVisible ? "[閉じる]" : "[表示]"}</span></p>
@@ -68,13 +69,15 @@ export const OutLine:React.FC<Props> = ({content})=>{
                    <div className="number">{eH2[0].toString()}</div>
                    <a href={'#'+ eH2[1].id} className="text">{eH2[1].text}</a>
                  </div>
-                 <ul className="lower">
-                   {outLineObj!.h3.get(eH2[0])?.map((eH3)=>(
-                     <li key={eH3.id} className={"outline" + "--" + eH3.tagName}>
-                       <a href={"#" + eH3.id} className="text">{eH3.text}</a>
-                     </li>
-                   ))}
-                 </ul>
+                 {outLineObj!.h3.has(eH2[0]) ? 
+                                 <ul className="lower">
+                                 {outLineObj!.h3.get(eH2[0])?.map((eH3)=>(
+                                   <li key={eH3.id} className={"outline" + "--" + eH3.tagName}>
+                                     <a href={"#" + eH3.id} className="text">{eH3.text}</a>
+                                   </li>
+                                 ))}
+                               </ul> : <></> 
+                }
                </li>
              ))}
             </ul>
