@@ -6,6 +6,8 @@ import { fetchTagData } from '../../api/tag'
 import { Article } from '../../types/Article'
 import useSWR from 'swr'
 import { useEffect, useState } from 'react'
+import { HeadSeo } from '../../components/HeadSeo'
+import { baseDescription, baseImage, siteName, url } from '../../utility/const'
 type Props = {
   statsicArticleListBytag: Article[]
 }
@@ -33,6 +35,7 @@ const Tag: NextPage<Props> = ({ statsicArticleListBytag }) => {
 
   return (
     <>
+      <HeadSeo title={siteName} description={baseDescription} image={baseImage} url={url + router.asPath}/>
       <section className="article-area">
         <div className="article-area__category-name">
           <p className="en">- Tag -</p>

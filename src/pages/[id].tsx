@@ -2,7 +2,6 @@ import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import Image from 'next/image'
 import {
   fetchArticleData,
-  fetchArticleDataList,
   fetchArticleIdList,
 } from '../api/blog'
 import { Article } from '../types/Article'
@@ -11,6 +10,8 @@ import { OutLine } from '../components/OutLine '
 import { changeFormatDate } from '../utility/DateFormat'
 import { useRouter } from 'next/router'
 import useSWR from 'swr'
+import { HeadSeo } from '../components/HeadSeo'
+import { url } from '../utility/const'
 
 
 type Props = {
@@ -35,12 +36,12 @@ const ArticleDetail: NextPage<Props> = ({ staticArticleDetail }) => {
   if (!articleDetail) return <></>
   return (
     <>
+    <HeadSeo title={articleDetail.title} description={articleDetail.description} image={articleDetail.eyecatch.url} url={url + router.asPath}/>
       <section className="article-area">
       <span className="categoryS">{articleDetail.category.name}</span>
         <div className="article-area__detail-first">
           <h2 className="title">{articleDetail.title}</h2>
           <p className="createdAt">{changeFormatDate(articleDetail.createdAt, "YYYY年MM月DD日")}</p>
-          {/* <img src="/images/DSC_3163.JPG" alt="画像" className="image" /> */}
           <div className="image">
             <Image
               src={articleDetail.eyecatch.url}
