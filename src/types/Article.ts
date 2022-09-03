@@ -3,6 +3,7 @@ export type Article = {
   title: string
   createdAt: string
   content: string
+  description: string,
   eyecatch: {
     url: string
     height: number

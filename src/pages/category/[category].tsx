@@ -6,6 +6,8 @@ import { fetchArticleDataListByCategory } from '../../api/blog'
 import { Article } from '../../types/Article'
 import useSWR from 'swr'
 import { useEffect, useState } from 'react'
+import { HeadSeo } from '../../components/HeadSeo'
+import { baseDescription, baseImage, siteName, url } from '../../utility/const'
 type Props = {
   staticArticleListByCategory: Article[]
 }
@@ -27,6 +29,7 @@ const Category: NextPage<Props> = ({ staticArticleListByCategory }) => {
   if (!articleListByCategory) return <></>
   return (
     <>
+      <HeadSeo title={siteName} description={baseDescription} image={baseImage} url={url + router.asPath}/>
       <section className="article-area">
         <div className="article-area__category-name">
           <p className="en">- Category -</p>

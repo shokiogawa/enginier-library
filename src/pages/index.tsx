@@ -1,18 +1,15 @@
 import type { NextPage, GetStaticProps } from 'next'
-import { Card } from '../components/Card'
 import { ArticleList } from '../components/ArticleList'
-import { fetchCategoryData } from '../api/category'
-import { fetchTagData } from '../api/tag'
-import { fetchArticleData, fetchArticleDataList } from '../api/blog'
+import {fetchArticleDataList } from '../api/blog'
 import { Article } from '../types/Article'
-import { Category } from '../types/Category'
-import Link from 'next/link'
 import useSWR from 'swr'
 import {useEffect} from "react"
+import { HeadSeo } from '../components/HeadSeo'
+import { useRouter } from 'next/router'
+import { baseDescription, baseImage, siteName, url } from '../utility/const'
 
 type Props = {
   staticNewArticleList: Article[]
-  // categoryList: [Category]
 }
 
 const fetcher = async (): Promise<Article[]> => {
@@ -21,6 +18,7 @@ const fetcher = async (): Promise<Article[]> => {
 }
 
 const Home: NextPage<Props> = ({ staticNewArticleList}) => {
+  const router = useRouter()
   const {data: articleList, mutate} = useSWR(`/index`, fetcher,{
     fallbackData: staticNewArticleList
   })
@@ -29,12 +27,15 @@ const Home: NextPage<Props> = ({ staticNewArticleList}) => {
   }, [])
   if (!articleList) return <></>
   return (
+    <>
+    <HeadSeo title={siteName} description={baseDescription} image={baseImage} url={url + router.asPath}/>
     <section className="article-area">
       <div className="article-area__category">
       </div>
       <h2 className="article-area__title">最新記事一覧</h2>
       <ArticleList articleList={articleList} />
     </section>
+    </>
   )
 }
 
@@ -42,11 +43,10 @@ export default Home
 
 export const getStaticProps: GetStaticProps = async () => {
   const newArticleList = await fetchArticleDataList()
-  // const categoryList = await fetchCategoryData()
   return {
     props: {
       staticNewArticleList: newArticleList.contents,
-      // categoryList: categoryList.contents,
     },
+    revalidate: 10,
   }
 }
