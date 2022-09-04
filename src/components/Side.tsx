@@ -22,7 +22,9 @@ export const Side: NextPage = () => {
           <br />
           当サイトでは、エンジニア向けのお役立ち情報を発信します。
         </p>
-        <p className="prof-detail">詳細プロフィール</p>
+        <a className="link" href="https://github.com/shokiogawa" target="_blank"><p className="prof-detail">Git Hub</p></a>
+        <a className="link" href="https://twitter.com/sahoun6" target="_blank"><p className="prof-detail">Twitter</p></a>
+        {/* <p className="prof-detail">詳細プロフィール</p> */}
         {/* <div className="sns">
           <p className="sns__text">Follow me!!</p>
           <ul className="sns__item">
