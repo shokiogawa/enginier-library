@@ -56,7 +56,6 @@ export const OutLine:React.FC<Props> = ({content})=>{
     setOutLineObj(obj)
   }, [])
   const h2List = Array.from(outLineObj!.h2.entries())
-  console.log(outLineObj.h3)
   return (
     <div className="c-outline">
       <p className="c-outline__title">目次  <span className="hide" onClick={()=>{setVisible(!isVisible)}}>{isVisible ? "[閉じる]" : "[表示]"}</span></p>
