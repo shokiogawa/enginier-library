@@ -17,4 +17,7 @@ async function createJsonFile() {
   fs.writeFileSync('./src/data/category.json', jsonCategory)
 }
 
+const test = createJsonFile
+test()
+
 createJsonFile()
