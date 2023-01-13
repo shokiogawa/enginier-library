@@ -10,6 +10,7 @@ type BlogOptionData = {
   categories: [Category]
   tags: [Tags]
 }
+
 export const Side: NextPage = () => {
   return (
     <aside className="side">
