@@ -1,6 +1,6 @@
 import { ReactElement } from 'react'
-import { Footer } from '../components/Footer'
-import { Header } from '../components/Header'
+import { Footer, MeruboFooter } from '../components/Footer'
+import { Header, MeruboHeader } from '../components/Header'
 import { Side } from '../components/Side'
 import { useRouter } from 'next/router'
 type LayoutProps = Required<{
@@ -11,12 +11,12 @@ export const Layout = ({ children }: LayoutProps) => {
   const router = useRouter()
   return (
     <>
-      <Header />
+      {router.pathname === '/merubo' ? <MeruboHeader /> : <Header />}
       <main className="main ">
         {children}
         {router.pathname === '/merubo' ? <></> : <Side />}
       </main>
-      <Footer />
+      {router.pathname === '/merubo' ? <MeruboFooter /> : <Footer />}
     </>
   )
 }

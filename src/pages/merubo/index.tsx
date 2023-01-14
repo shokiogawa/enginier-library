@@ -4,8 +4,14 @@ import { getStorage } from 'firebase/storage'
 import React, { ChangeEvent, useState } from 'react'
 import { v4 } from 'uuid'
 import {
-  collection,
-  getDocs,
+  Button,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogContentText,
+  DialogActions,
+} from '@material-ui/core/'
+import {
   getFirestore,
   doc,
   setDoc,
@@ -19,6 +25,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import MeruboUploadArea, { uploadImage } from '../../components/MeruboUpload'
 import MeruboAvaterUpload from '../../components/MeruboAvaterUpload'
 import { useRouter } from 'next/router'
+
 const Merubo: NextPage = () => {
   const {
     register,
@@ -28,6 +35,18 @@ const Merubo: NextPage = () => {
   } = useForm<InputData>()
   const [uploadFile, setUploadFile] = useState<File>()
   const [avaterFile, setAvaterFile] = useState<File>()
+  const [open, setOpen] = useState(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [message, setMessage] = useState<String>()
+  const handleReload = () => {
+    window.location.reload()
+  }
+  const handleClickOpen = () => {
+    setOpen(true)
+  }
+  const handleClose = () => {
+    setOpen(false)
+  }
   const router = useRouter()
   const messageBordId = router.query.messageBordId as string
 
@@ -56,7 +75,10 @@ const Merubo: NextPage = () => {
   }
   // メッセージ追加ボタン押下時
   const onSubmit: SubmitHandler<InputData> = async (data): Promise<void> => {
+    setIsLoading(true)
     if (messageBordId) {
+      console.log('start set data to firebase')
+      setIsLoading(true)
       try {
         const messageId = v4()
         let thumbnail
@@ -86,10 +108,21 @@ const Merubo: NextPage = () => {
           'messages',
           messageId
         ).withConverter(messageConverter)
-        await setDoc(messageRef, message)
+        await setDoc(messageRef, message).then(() => {
+          console.log('成功')
+          setMessage('メッセージを送信しました。')
+        })
       } catch (err) {
+        setMessage(
+          'メッセージの送信に失敗しました。少し時間を開け、再度送信してください。'
+        )
         throw err
+      } finally {
+        setIsLoading(false)
       }
+    } else {
+      setMessage('URLをご確認の上再度送信してください')
+      setIsLoading(false)
     }
   }
   return (
@@ -134,9 +167,58 @@ const Merubo: NextPage = () => {
               <MeruboUploadArea id="image" onChange={handleSetUploadImage} />
             </li>
             <li className="item button-item">
-              <button>確認する</button>
+              <button onClick={handleSubmit(handleClickOpen)}>送信する</button>
             </li>
           </ul>
+          <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+              {isLoading
+                ? '送信中'
+                : message
+                ? ''
+                : 'メッセージを送信しますか？'}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                {isLoading
+                  ? '少々お待ちください'
+                  : message
+                  ? message
+                  : '送信したメッセージは編集できません'}
+              </DialogContentText>
+            </DialogContent>
+            {isLoading ? (
+              <></>
+            ) : message ? (
+              <DialogActions>
+                <Button onClick={handleReload}>戻る</Button>
+              </DialogActions>
+            ) : (
+              <DialogActions>
+                <Button onClick={handleClose}>キャンセル</Button>
+                <Button onClick={handleSubmit(onSubmit)} autoFocus>
+                  送信
+                </Button>
+              </DialogActions>
+            )}
+            {/* {isLoading ? (
+              <DialogActions>
+                <Button onClick={handleClose}>キャンセル</Button>
+                <Button onClick={handleSubmit(onSubmit)} autoFocus>
+                  送信
+                </Button>
+              </DialogActions>
+            ) : (
+              <DialogActions>
+                <Button onClick={handleReload}>戻る</Button>
+              </DialogActions>
+            )} */}
+          </Dialog>
         </form>
       </section>
     </>

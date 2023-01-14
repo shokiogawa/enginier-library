@@ -2,23 +2,45 @@
 .l-header {
   background-color: #3b4675;
   height: 50px;
-  @include md{
+  @include md {
     height: 100px;
   }
   & .header-area {
     text-align: center;
     line-height: 50px;
-    @include md{
+    @include md {
       line-height: 100px;
     }
     &__title {
       font-size: 2rem;
-      @include md{
+      @include md {
         font-size: 3rem;
       }
       & .link {
         text-decoration: none;
         color: white;
+      }
+    }
+  }
+}
+
+.l-header-merubo {
+  background-color: orange;
+  height: 40px;
+  @include md {
+    height: 50px;
+  }
+  & .header-area-merubo {
+    text-align: center;
+    line-height: 40px;
+    @include md {
+      line-height: 50px;
+    }
+    &__title {
+      color: white;
+      font-size: 2rem;
+      @include md {
+        font-size: 2rem;
       }
     }
   }

@@ -12,3 +12,13 @@ export const Header = () => {
     </header>
   )
 }
+
+export const MeruboHeader = () => {
+  return (
+    <header className="l-header-merubo">
+      <div className="header-area-merubo">
+        <h1 className="header-area-merubo__title">Merubo</h1>
+      </div>
+    </header>
+  )
+}

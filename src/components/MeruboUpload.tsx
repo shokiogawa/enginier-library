@@ -1,16 +1,14 @@
 import React, { ChangeEvent, ChangeEventHandler, useState } from 'react'
 import Image from 'next/image'
-import { useDropzone } from 'react-dropzone'
 import { firebaseStorage } from '../pages/merubo'
 import {
   ref,
-  uploadBytes,
   getDownloadURL,
   uploadBytesResumable,
   TaskState,
 } from 'firebase/storage'
 import { Card, CardContent } from '@material-ui/core/'
-import { Camera, CameraAltOutlined } from '@material-ui/icons'
+import { CameraAltOutlined } from '@material-ui/icons'
 
 export type firebaseOnLoadProp = {
   bytesTransferred: number
@@ -63,16 +61,16 @@ const MeruboUploadArea: React.FC<Props> = ({ id, onChange }) => {
 
   return (
     <label htmlFor={id}>
+      <input
+        hidden
+        type="file"
+        accept="image/*"
+        id={id}
+        onChange={handleImagePreview}
+      />
       {imageSrc === '' ? (
         <Card className="" style={{ height: '110px' }}>
           <CardContent className="">
-            <input
-              hidden
-              type="file"
-              accept="image/*"
-              id={id}
-              onChange={handleImagePreview}
-            />
             <div className="merubo-card">
               <CameraAltOutlined
                 className="camera-icon"

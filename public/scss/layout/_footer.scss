@@ -12,3 +12,13 @@
   display: flex;
   justify-content: space-evenly;
 }
+
+.l-footer-merubo {
+  height: 200px;
+  color: white;
+  background-color: rgb(197, 196, 196);
+  text-align: center;
+  .text {
+    line-height: 200px;
+  }
+}
