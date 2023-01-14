@@ -10,3 +10,11 @@ export const Footer = () => {
     </footer>
   )
 }
+
+export const MeruboFooter = () => {
+  return (
+    <footer className="l-footer-merubo">
+      <p className="text">Merubo ~オンライン寄せ書きアプリ~</p>
+    </footer>
+  )
+}

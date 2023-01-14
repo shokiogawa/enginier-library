@@ -1,16 +1,14 @@
 import React, { ChangeEvent, ChangeEventHandler, useState } from 'react'
 import Image from 'next/image'
-import { useDropzone } from 'react-dropzone'
 import { firebaseStorage } from '../pages/merubo'
 import {
   ref,
-  uploadBytes,
   getDownloadURL,
   uploadBytesResumable,
   TaskState,
 } from 'firebase/storage'
 import { Card, CardContent } from '@material-ui/core/'
-import { Camera, CameraAltOutlined } from '@material-ui/icons'
+import { CameraAltOutlined } from '@material-ui/icons'
 
 export type firebaseOnLoadProp = {
   bytesTransferred: number
@@ -20,78 +18,19 @@ export type firebaseOnLoadProp = {
 }
 
 // 画像保存メソッド
-const uploadImage = async (image: File): Promise<String> => {
-  const fullPath = ''
-  let imageURL = ''
-  const storageRef = ref(firebaseStorage, fullPath)
-  const uploadTask = uploadBytesResumable(storageRef, image)
-  await uploadTask
-    .then(async function (value) {
-      imageURL = await getDownloadURL(value.ref)
-    })
-    .catch((error) => {
-      console.log(error)
-    })
-  return imageURL
-  // uploadTask.on(
-  //   'state_changed',
-  //   // 保存中メソッド
-  //   (snapshot: firebaseOnLoadProp) => {
-  //     const progress: number =
-  //       (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-  //     console.log('Upload is ' + progress + '% done')
-  //     switch (snapshot.state) {
-  //       case 'paused': // or 'paused'
-  //         console.log('Upload is paused')
-  //         break
-  //       case 'running': // or 'running'
-  //         console.log('Upload is running')
-  //         break
-  //     }
-  //   },
-  //   //エラー時のメソッド
-  //   (error: any) => {
-  //     switch (error.code) {
-  //       case 'storage/unauthorized':
-  //         // User doesn't have permission to access the object
-  //         console.error('許可がありません')
-  //         break
-
-  //       case 'storage/canceled':
-  //         console.error('アップロードがキャンセルされました　')
-  //         // User canceled the upload
-  //         break
-
-  //       case 'storage/unknown':
-  //         console.error('予期せぬエラーが発生しました')
-  //         // Unknown error occurred, inspect error.serverResponse
-  //         break
-  //     }
-  //   },
-  //   // 成功時のメソッド
-  //   () => {
-  //     try {
-  //       getDownloadURL(uploadTask.snapshot.ref).then((value) => {
-  //         console.log(value)
-  //       })
-  //     } catch (error) {
-  //       switch (error.code) {
-  //         case 'storage/object-not-found':
-  //           console.log('ファイルが存在しませんでした')
-  //           break
-  //         case 'storage/unauthorized':
-  //           console.log('許可がありません')
-  //           break
-  //         case 'storage/canceled':
-  //           console.log('キャンセルされました')
-  //           break
-  //         case 'storage/unknown':
-  //           console.log('予期せぬエラーが生じました')
-  //           break
-  //       }
-  //     }
-  //   }
-  // )
+export const uploadImage = async (
+  image: File,
+  filePath: string
+): Promise<String | undefined> => {
+  try {
+    let imageURL
+    const storageRef = ref(firebaseStorage, filePath)
+    const uploadTask = uploadBytesResumable(storageRef, image)
+    const value = await uploadTask
+    return await getDownloadURL(value.ref)
+  } catch (err) {
+    throw err
+  }
 }
 
 type Props = {
@@ -100,7 +39,6 @@ type Props = {
 }
 
 const MeruboUploadArea: React.FC<Props> = ({ id, onChange }) => {
-  const [uploadFile, setUploadFile] = useState<File[]>()
   const [imageSrc, setSrc] = useState<string>('')
 
   const handleImagePreview = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -109,7 +47,7 @@ const MeruboUploadArea: React.FC<Props> = ({ id, onChange }) => {
       return
     }
     const file = files[0]
-    if (file === null) {
+    if (file == null) {
       return
     }
     let reader = new FileReader()
@@ -123,16 +61,16 @@ const MeruboUploadArea: React.FC<Props> = ({ id, onChange }) => {
 
   return (
     <label htmlFor={id}>
+      <input
+        hidden
+        type="file"
+        accept="image/*"
+        id={id}
+        onChange={handleImagePreview}
+      />
       {imageSrc === '' ? (
         <Card className="" style={{ height: '110px' }}>
           <CardContent className="">
-            <input
-              hidden
-              type="file"
-              accept="image/*"
-              id={id}
-              onChange={handleImagePreview}
-            />
             <div className="merubo-card">
               <CameraAltOutlined
                 className="camera-icon"
