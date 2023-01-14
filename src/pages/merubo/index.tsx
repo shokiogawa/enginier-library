@@ -2,6 +2,7 @@ import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import { initializeApp } from 'firebase/app'
 import { getStorage } from 'firebase/storage'
 import React, { ChangeEvent, useState } from 'react'
+import { v4 } from 'uuid'
 import {
   collection,
   getDocs,
@@ -12,9 +13,12 @@ import {
   DocumentData,
   QueryDocumentSnapshot,
   SnapshotOptions,
+  initializeFirestore,
 } from 'firebase/firestore'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import MeruboUploadArea from '../../components/MeruboUpload'
+import MeruboUploadArea, { uploadImage } from '../../components/MeruboUpload'
+import MeruboAvaterUpload from '../../components/MeruboAvaterUpload'
+import { useRouter } from 'next/router'
 const Merubo: NextPage = () => {
   const {
     register,
@@ -23,6 +27,10 @@ const Merubo: NextPage = () => {
     formState: { isValid, errors },
   } = useForm<InputData>()
   const [uploadFile, setUploadFile] = useState<File>()
+  const [avaterFile, setAvaterFile] = useState<File>()
+  const router = useRouter()
+  const messageBordId = router.query.messageBordId as string
+
   const handleSetUploadImage = async (event: ChangeEvent<HTMLInputElement>) => {
     const { name, files } = event.target
     if (files == null) {
@@ -34,6 +42,56 @@ const Merubo: NextPage = () => {
     }
     setUploadFile(file)
   }
+
+  const handleSetAvaterImage = async (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, files } = event.target
+    if (files == null) {
+      return
+    }
+    const file = files[0]
+    if (file === null) {
+      return
+    }
+    setAvaterFile(file)
+  }
+  // メッセージ追加ボタン押下時
+  const onSubmit: SubmitHandler<InputData> = async (data): Promise<void> => {
+    if (messageBordId) {
+      try {
+        const messageId = v4()
+        let thumbnail
+        let image
+        if (avaterFile) {
+          const filePath = `message_bords/${messageBordId}/messages/${messageId}/thumbnail/${avaterFile.name}`
+          console.log('start avaterFile upload')
+          thumbnail = await uploadImage(avaterFile, filePath)
+        }
+        if (uploadFile) {
+          const filePath = `message_bords/${messageBordId}/messages/${messageId}/image/${uploadFile.name}`
+          console.log('start uploadFile upload')
+          image = await uploadImage(uploadFile, filePath)
+        }
+        const message: Message = {
+          id: messageId,
+          userName: data.userName,
+          content: data.content,
+          thumbnail: thumbnail,
+          image: image,
+        }
+        const db = getFirestore()
+        const messageRef = doc(
+          db,
+          'message_bords',
+          messageBordId,
+          'messages',
+          messageId
+        ).withConverter(messageConverter)
+        await setDoc(messageRef, message)
+      } catch (err) {
+        throw err
+      }
+    }
+  }
   return (
     <>
       <section className="merubo-section">
@@ -43,24 +101,32 @@ const Merubo: NextPage = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="merubo-form">
           <ul className="items">
             <li className="item">
-              <label htmlFor="name">お名前</label>
+              <label htmlFor="userName">お名前</label>
               <input
-                id="name"
-                {...register('name', { required: true })}
+                id="userName"
+                {...register('userName', { required: true })}
                 type="text"
                 defaultValue={''}
                 placeholder="小川翔生"
               />
-              {errors.name && <span>名前が入力されていません。</span>}
+              {errors.userName && <span>名前が入力されていません。</span>}
+            </li>
+
+            <li>
+              <p>あなたの写真</p>
+              <MeruboAvaterUpload
+                id={'avater'}
+                onChange={handleSetAvaterImage}
+              />
             </li>
 
             <li className="item">
-              <label htmlFor="message">メッセージ</label>
+              <label htmlFor="content">メッセージ</label>
               <textarea
-                id="message"
-                {...register('message', { required: true })}
+                id="content"
+                {...register('content', { required: true })}
               ></textarea>
-              {errors.message && <span>メッセージが入力されていません</span>}
+              {errors.content && <span>メッセージが入力されていません</span>}
             </li>
             <li className="item">
               <p>写真</p>
@@ -80,15 +146,15 @@ const Merubo: NextPage = () => {
 export default Merubo
 
 type InputData = {
-  name: string
-  message: string
+  userName: string
+  content: string
 }
 
 type Message = {
   id: string
   userName: string
-  thumnail: string
-  image: string
+  thumbnail: String | undefined
+  image: String | undefined
   content: string
 }
 
@@ -98,7 +164,7 @@ const messageConverter: FirestoreDataConverter<Message> = {
     return {
       id: message.id,
       userName: message.userName,
-      thumnail: message.thumnail,
+      thumbnail: message.thumbnail,
       image: message.image,
       content: message.content,
     }
@@ -111,27 +177,11 @@ const messageConverter: FirestoreDataConverter<Message> = {
     return {
       id: snapshot.id,
       userName: data.userName,
-      thumnail: data.thumnail,
+      thumbnail: data.thumnail,
       image: data.image,
       content: data.content,
     }
   },
-}
-
-// メッセージ追加ボタン押下時
-const onSubmit: SubmitHandler<InputData> = async (data): Promise<void> => {
-  console.log('やあ')
-  // const db = getFirestore()
-  // const message = {}
-  // const messageId = ''
-  // const messageRef = doc(
-  //   db,
-  //   'message_bords',
-  //   messageId,
-  //   'messages',
-  //   messageId
-  // ).withConverter(messageConverter)
-  // await setDoc(messageRef, message)
 }
 
 // firebase設定
@@ -146,4 +196,7 @@ const firebaseConfig = {
 }
 
 const app = initializeApp(firebaseConfig)
+initializeFirestore(app, {
+  ignoreUndefinedProperties: true,
+})
 export const firebaseStorage = getStorage(app)
