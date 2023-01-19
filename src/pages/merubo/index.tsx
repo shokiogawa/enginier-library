@@ -111,14 +111,14 @@ const Merubo: NextPage = () => {
         await setDoc(messageRef, message).then(() => {
           console.log('成功')
           setMessage('メッセージを送信しました。')
+          setIsLoading(false)
         })
       } catch (err) {
         setMessage(
           'メッセージの送信に失敗しました。少し時間を開け、再度送信してください。'
         )
-        throw err
-      } finally {
         setIsLoading(false)
+        throw err
       }
     } else {
       setMessage('URLをご確認の上再度送信してください')
