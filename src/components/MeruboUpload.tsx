@@ -9,6 +9,7 @@ import {
 } from 'firebase/storage'
 import { Card, CardContent } from '@material-ui/core/'
 import { CameraAltOutlined } from '@material-ui/icons'
+import imageCompression from 'browser-image-compression'
 
 export type firebaseOnLoadProp = {
   bytesTransferred: number
@@ -23,11 +24,34 @@ export const uploadImage = async (
   filePath: string
 ): Promise<String | undefined> => {
   try {
-    let imageURL
+    // 保存箇所指定
     const storageRef = ref(firebaseStorage, filePath)
-    const uploadTask = uploadBytesResumable(storageRef, image)
-    const value = await uploadTask
+    // 保存場所にアップ
+    const compressedImageFile = await compressImage(image)
+    console.log('元画像サイズ')
+    console.log(image.size)
+    console.log('圧縮後画像サイズ')
+    console.log(compressedImageFile.size)
+    const value = await uploadBytesResumable(storageRef, compressedImageFile)
+    // URL取得
     return await getDownloadURL(value.ref)
+  } catch (err) {
+    throw err
+  }
+}
+
+type compressedImageOption = {
+  initialQuality: number
+}
+
+// 画像圧縮メソッド
+const compressImage = async (file: File): Promise<File> => {
+  try {
+    const options: compressedImageOption = {
+      initialQuality: 0.6,
+    }
+    const compressedFile = await imageCompression(file, options)
+    return compressedFile
   } catch (err) {
     throw err
   }

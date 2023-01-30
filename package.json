@@ -15,6 +15,7 @@
     "@material-ui/lab": "^4.0.0-alpha.61",
     "@types/uuid": "^9.0.0",
     "autoprefixer": "^10.4.7",
+    "browser-image-compression": "^2.0.0",
     "dotenv": "^16.0.1",
     "firebase": "^9.15.0",
     "microcms-js-sdk": "^2.0.0",
