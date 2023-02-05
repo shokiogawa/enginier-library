@@ -21,6 +21,13 @@ const MeruboAuth: NextPage = () => {
     // console.log(location.href)
     // // TODO hrefからemalを取得
     await signInWithEmailLink(firebaseAuth, email, location.href)
+      .then(() => {
+        console.log('認証成功')
+      })
+      .catch((err) => {
+        console.log('認証失敗')
+        console.log(err)
+      })
   }
 
   useEffect(() => {
