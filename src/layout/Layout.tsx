@@ -11,12 +11,20 @@ export const Layout = ({ children }: LayoutProps) => {
   const router = useRouter()
   return (
     <>
-      {router.pathname === '/merubo' ? <MeruboHeader /> : <Header />}
+      {router.pathname === '/merubo' || '/merubo/auth' ? (
+        <MeruboHeader />
+      ) : (
+        <Header />
+      )}
       <main className="main ">
         {children}
-        {router.pathname === '/merubo' ? <></> : <Side />}
+        {router.pathname === '/merubo' || '/merubo/auth' ? <></> : <Side />}
       </main>
-      {router.pathname === '/merubo' ? <MeruboFooter /> : <Footer />}
+      {router.pathname === '/merubo' || '/merubo/auth' ? (
+        <MeruboFooter />
+      ) : (
+        <Footer />
+      )}
     </>
   )
 }

@@ -1,6 +1,7 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import { initializeApp } from 'firebase/app'
 import { getStorage } from 'firebase/storage'
+import { getAuth } from 'firebase/auth'
 import React, { ChangeEvent, useState } from 'react'
 import { v4 } from 'uuid'
 import {
@@ -206,18 +207,6 @@ const Merubo: NextPage = () => {
                 </Button>
               </DialogActions>
             )}
-            {/* {isLoading ? (
-              <DialogActions>
-                <Button onClick={handleClose}>キャンセル</Button>
-                <Button onClick={handleSubmit(onSubmit)} autoFocus>
-                  送信
-                </Button>
-              </DialogActions>
-            ) : (
-              <DialogActions>
-                <Button onClick={handleReload}>戻る</Button>
-              </DialogActions>
-            )} */}
           </Dialog>
         </form>
       </section>
@@ -282,3 +271,4 @@ initializeFirestore(app, {
   ignoreUndefinedProperties: true,
 })
 export const firebaseStorage = getStorage(app)
+export const firebaseAuth = getAuth(app)
