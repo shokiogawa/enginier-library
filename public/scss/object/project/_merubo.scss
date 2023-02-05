@@ -71,3 +71,19 @@
   height: 200px;
   width: 300px;
 }
+
+.auth-merubo-section {
+  margin: 0 auto;
+  .description {
+    margin-bottom: 20px;
+  }
+  .button {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    color: white;
+    background-color: orange;
+    width: 100%;
+  }
+}

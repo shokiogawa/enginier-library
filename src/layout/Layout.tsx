@@ -9,14 +9,16 @@ type LayoutProps = Required<{
 //LayoutProps内のchildrenを指定。
 export const Layout = ({ children }: LayoutProps) => {
   const router = useRouter()
+  const isMerubo =
+    router.pathname === '/merubo' || router.pathname === '/merubo/auth'
   return (
     <>
-      {router.pathname === '/merubo' ? <MeruboHeader /> : <Header />}
+      {isMerubo ? <MeruboHeader /> : <Header />}
       <main className="main ">
         {children}
-        {router.pathname === '/merubo' ? <></> : <Side />}
+        {isMerubo ? <></> : <Side />}
       </main>
-      {router.pathname === '/merubo' ? <MeruboFooter /> : <Footer />}
+      {isMerubo ? <MeruboFooter /> : <Footer />}
     </>
   )
 }
