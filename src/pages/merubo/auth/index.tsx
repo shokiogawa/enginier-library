@@ -1,9 +1,9 @@
 import { NextPage } from 'next'
-import { firebaseAuth } from '../../merubo'
 import { signInWithEmailLink } from 'firebase/auth'
 import { Button } from '@material-ui/core'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
+import { firebaseAuth } from '../../../utility/firebase'
 const MeruboAuth: NextPage = () => {
   const router = useRouter()
   const email = router.query.email as string
@@ -20,7 +20,12 @@ const MeruboAuth: NextPage = () => {
     // console.log(email)
     // console.log(location.href)
     // // TODO hrefからemalを取得
-    await signInWithEmailLink(firebaseAuth, email, location.href)
+    console.log('やあ')
+    await signInWithEmailLink(
+      firebaseAuth,
+      'syouki2578@icloud.com',
+      location.href
+    )
       .then(() => {
         console.log('認証成功')
       })
@@ -45,9 +50,7 @@ const MeruboAuth: NextPage = () => {
           <Button
             className="button"
             onClick={() => {
-              if (email != null) {
-                valifyEmailHandler()
-              }
+              valifyEmailHandler()
             }}
           >
             認証
