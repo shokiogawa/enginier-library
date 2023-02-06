@@ -1,9 +1,7 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
-import { initializeApp } from 'firebase/app'
-import { getStorage } from 'firebase/storage'
-import { getAuth } from 'firebase/auth'
 import React, { ChangeEvent, useState } from 'react'
 import { v4 } from 'uuid'
+import { useEffect } from 'react'
 import {
   Button,
   Dialog,
@@ -12,22 +10,43 @@ import {
   DialogContentText,
   DialogActions,
 } from '@material-ui/core/'
-import {
-  getFirestore,
-  doc,
-  setDoc,
-  FirestoreDataConverter,
-  DocumentData,
-  QueryDocumentSnapshot,
-  SnapshotOptions,
-  initializeFirestore,
-} from 'firebase/firestore'
+import { doc, getDoc, setDoc } from 'firebase/firestore'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import MeruboUploadArea, { uploadImage } from '../../components/MeruboUpload'
 import MeruboAvaterUpload from '../../components/MeruboAvaterUpload'
 import { useRouter } from 'next/router'
+import { Message, messageConverter } from '../../types/MeruboMessage'
+import { firebaseStore } from '../../utility/firebase'
+import {
+  MeruboMessageBord,
+  messageBordConverter,
+} from '../../types/MeruboMessageBord'
+import useSWR from 'swr'
 
 const Merubo: NextPage = () => {
+  const router = useRouter()
+  const messageBordId = router.query.messageBordId as string
+
+  const fetchMessageBord = async (): Promise<MeruboMessageBord | undefined> => {
+    const messageBordRef = doc(
+      firebaseStore,
+      'message_bords',
+      messageBordId
+    ).withConverter(messageBordConverter)
+    const docSnap = await getDoc(messageBordRef)
+    const data = docSnap.data()
+    return data
+  }
+  const { data: messageBordData, error } = useSWR(
+    messageBordId ? `firebaseFirestore/messageBord` : null,
+    fetchMessageBord,
+    {
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+    }
+  )
+
+  // フォーム
   const {
     register,
     handleSubmit,
@@ -48,8 +67,6 @@ const Merubo: NextPage = () => {
   const handleClose = () => {
     setOpen(false)
   }
-  const router = useRouter()
-  const messageBordId = router.query.messageBordId as string
 
   const handleSetUploadImage = async (event: ChangeEvent<HTMLInputElement>) => {
     const { name, files } = event.target
@@ -101,9 +118,8 @@ const Merubo: NextPage = () => {
           thumbnail: thumbnail,
           image: image,
         }
-        const db = getFirestore()
         const messageRef = doc(
-          db,
+          firebaseStore,
           'message_bords',
           messageBordId,
           'messages',
@@ -126,90 +142,106 @@ const Merubo: NextPage = () => {
       setIsLoading(false)
     }
   }
+  if (!messageBordData) return <></>
+  if (error) return <p>エラーが起きました</p>
   return (
     <>
-      <section className="merubo-section">
-        <div className="merubo-title">
-          <h2 className="text">メッセージを追加</h2>
-        </div>
-        <form onSubmit={handleSubmit(onSubmit)} className="merubo-form">
-          <ul className="items">
-            <li className="item">
-              <label htmlFor="userName">お名前</label>
-              <input
-                id="userName"
-                {...register('userName', { required: true })}
-                type="text"
-                defaultValue={''}
-                placeholder="小川翔生"
-              />
-              {errors.userName && <span>名前が入力されていません。</span>}
-            </li>
+      {messageBordData.status === 'edit' ? (
+        <section className="merubo-section">
+          <div className="merubo-title">
+            <h2 className="title">
+              {messageBordData?.receiverUserName}
+              さんへ{messageBordData.category}のお祝いを送りましょう
+            </h2>
+            <p className="text">メッセージを追加</p>
+          </div>
+          <form onSubmit={handleSubmit(onSubmit)} className="merubo-form">
+            <ul className="items">
+              <li className="item">
+                <label htmlFor="userName">お名前</label>
+                <input
+                  id="userName"
+                  {...register('userName', { required: true })}
+                  type="text"
+                  defaultValue={''}
+                  placeholder="小川翔生"
+                />
+                {errors.userName && <span>名前が入力されていません。</span>}
+              </li>
 
-            <li>
-              <p>あなたの写真</p>
-              <MeruboAvaterUpload
-                id={'avater'}
-                onChange={handleSetAvaterImage}
-              />
-            </li>
+              <li>
+                <p>あなたの写真</p>
+                <MeruboAvaterUpload
+                  id={'avater'}
+                  onChange={handleSetAvaterImage}
+                />
+              </li>
 
-            <li className="item">
-              <label htmlFor="content">メッセージ</label>
-              <textarea
-                id="content"
-                {...register('content', { required: true })}
-              ></textarea>
-              {errors.content && <span>メッセージが入力されていません</span>}
-            </li>
-            <li className="item">
-              <p>写真</p>
-              <p className="sub-label">思い出の写真を送りましょう</p>
-              <MeruboUploadArea id="image" onChange={handleSetUploadImage} />
-            </li>
-            <li className="item button-item">
-              <button onClick={handleSubmit(handleClickOpen)}>送信する</button>
-            </li>
-          </ul>
-          <Dialog
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-          >
-            <DialogTitle id="alert-dialog-title">
-              {isLoading
-                ? '送信中'
-                : message
-                ? ''
-                : 'メッセージを送信しますか？'}
-            </DialogTitle>
-            <DialogContent>
-              <DialogContentText id="alert-dialog-description">
+              <li className="item">
+                <label htmlFor="content">メッセージ</label>
+                <textarea
+                  id="content"
+                  {...register('content', { required: true })}
+                ></textarea>
+                {errors.content && <span>メッセージが入力されていません</span>}
+              </li>
+              <li className="item">
+                <p>写真</p>
+                <p className="sub-label">思い出の写真を送りましょう</p>
+                <MeruboUploadArea id="image" onChange={handleSetUploadImage} />
+              </li>
+              <li className="item button-item">
+                <button onClick={handleSubmit(handleClickOpen)}>
+                  送信する
+                </button>
+              </li>
+            </ul>
+            <Dialog
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+            >
+              <DialogTitle id="alert-dialog-title">
                 {isLoading
-                  ? '少々お待ちください'
+                  ? '送信中'
                   : message
-                  ? message
-                  : '送信したメッセージは編集できません'}
-              </DialogContentText>
-            </DialogContent>
-            {isLoading ? (
-              <></>
-            ) : message ? (
-              <DialogActions>
-                <Button onClick={handleReload}>戻る</Button>
-              </DialogActions>
-            ) : (
-              <DialogActions>
-                <Button onClick={handleClose}>キャンセル</Button>
-                <Button onClick={handleSubmit(onSubmit)} autoFocus>
-                  送信
-                </Button>
-              </DialogActions>
-            )}
-          </Dialog>
-        </form>
-      </section>
+                  ? ''
+                  : 'メッセージを送信しますか？'}
+              </DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  {isLoading
+                    ? '少々お待ちください'
+                    : message
+                    ? message
+                    : '送信したメッセージは編集できません'}
+                </DialogContentText>
+              </DialogContent>
+              {isLoading ? (
+                <></>
+              ) : message ? (
+                <DialogActions>
+                  <Button onClick={handleReload}>戻る</Button>
+                </DialogActions>
+              ) : (
+                <DialogActions>
+                  <Button onClick={handleClose}>キャンセル</Button>
+                  <Button onClick={handleSubmit(onSubmit)} autoFocus>
+                    送信
+                  </Button>
+                </DialogActions>
+              )}
+            </Dialog>
+          </form>
+        </section>
+      ) : (
+        <section>
+          <div>
+            寄せ書きはすでに送られています。メッセージの追加はできません。
+          </div>
+        </section>
+      )}
     </>
   )
 }
@@ -220,55 +252,3 @@ type InputData = {
   userName: string
   content: string
 }
-
-type Message = {
-  id: string
-  userName: string
-  thumbnail: String | undefined
-  image: String | undefined
-  content: string
-}
-
-//コンバーター
-const messageConverter: FirestoreDataConverter<Message> = {
-  toFirestore(message: Message): DocumentData {
-    return {
-      id: message.id,
-      userName: message.userName,
-      thumbnail: message.thumbnail,
-      image: message.image,
-      content: message.content,
-    }
-  },
-  fromFirestore(
-    snapshot: QueryDocumentSnapshot,
-    options: SnapshotOptions
-  ): Message {
-    const data = snapshot.data(options)
-    return {
-      id: snapshot.id,
-      userName: data.userName,
-      thumbnail: data.thumnail,
-      image: data.image,
-      content: data.content,
-    }
-  },
-}
-
-// firebase設定
-const firebaseConfig = {
-  apiKey: 'AIzaSyC6JeHlPEfUCl5zR1odWm2FTEME2i3UW5k',
-  authDomain: 'merubo-develop.firebaseapp.com',
-  projectId: 'merubo-develop',
-  storageBucket: 'merubo-develop.appspot.com',
-  messagingSenderId: '518497144120',
-  appId: '1:518497144120:web:7e5bb0eb84a98f3103c5cd',
-  measurementId: 'G-LEDNJRPTT6',
-}
-
-const app = initializeApp(firebaseConfig)
-initializeFirestore(app, {
-  ignoreUndefinedProperties: true,
-})
-export const firebaseStorage = getStorage(app)
-export const firebaseAuth = getAuth(app)

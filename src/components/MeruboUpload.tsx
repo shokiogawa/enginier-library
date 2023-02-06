@@ -1,6 +1,5 @@
 import React, { ChangeEvent, ChangeEventHandler, useState } from 'react'
 import Image from 'next/image'
-import { firebaseStorage } from '../pages/merubo'
 import {
   ref,
   getDownloadURL,
@@ -10,6 +9,7 @@ import {
 import { Card, CardContent } from '@material-ui/core/'
 import { CameraAltOutlined } from '@material-ui/icons'
 import imageCompression from 'browser-image-compression'
+import { firebaseStorage } from '../utility/firebase'
 
 export type firebaseOnLoadProp = {
   bytesTransferred: number
