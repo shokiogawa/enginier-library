@@ -87,3 +87,60 @@
     width: 100%;
   }
 }
+
+// 利用規約 and プライバシーポリシー
+.merubo-other-area {
+  background-color: white;
+  @include md {
+    padding: 20px 30px;
+  }
+  padding: 10px 20px;
+  margin: 0px 10px;
+  ol {
+    list-style: decimal;
+    li {
+      list-style-position: inside;
+    }
+  }
+  ul {
+    list-style: inside;
+  }
+  h2 {
+    margin: 25px 0px 15px;
+    letter-spacing: 5px;
+    padding: 10px;
+    font-size: 23px;
+    font-weight: bold;
+    @include md {
+      margin: 30px 0px 20px;
+      letter-spacing: 5px;
+      padding: 15px;
+      font-size: 22px;
+    }
+  }
+  h3 {
+    border-bottom: solid 3px #cfd8ff;
+    letter-spacing: 2px;
+    padding: 10px 0px 2px;
+    margin-bottom: 15px;
+    font-size: 17px;
+    @include md {
+      padding: 20px 0px 2px;
+      margin-bottom: 15px;
+      font-size: 23px;
+    }
+  }
+  P {
+    letter-spacing: 0.1em;
+    font-size: 15px;
+    overflow: scroll;
+  }
+  pre {
+    padding: 10px;
+    background-color: #364549;
+    color: white;
+    font-size: 14px;
+    margin: 15px 0px;
+    overflow: scroll;
+  }
+}

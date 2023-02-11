@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 export const Footer = () => {
   return (
     <footer className="l-footer">
@@ -14,7 +16,23 @@ export const Footer = () => {
 export const MeruboFooter = () => {
   return (
     <footer className="l-footer-merubo">
-      <p className="text">Merubo ~オンライン寄せ書きアプリ~</p>
+      <div className="menu">
+        <ul>
+          <li>
+            <Link href={'/merubo/terms'}>
+              <a>利用規約</a>
+            </Link>
+          </li>
+          <li>
+            <Link href={'/merubo/privacy-policy'}>
+              <a>プライバシーポリシー</a>
+            </Link>
+          </li>
+        </ul>
+      </div>
+      <div className="title">
+        <p className="text">Merubo ~オンライン寄せ書きアプリ~</p>
+      </div>
     </footer>
   )
 }

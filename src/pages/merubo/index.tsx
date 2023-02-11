@@ -1,7 +1,6 @@
-import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
+import { NextPage } from 'next'
 import React, { ChangeEvent, useState } from 'react'
 import { v4 } from 'uuid'
-import { useEffect } from 'react'
 import {
   Button,
   Dialog,
@@ -143,7 +142,12 @@ const Merubo: NextPage = () => {
     }
   }
   if (!messageBordData) return <></>
-  if (error) return <p>エラーが起きました</p>
+  if (error)
+    return (
+      <section>
+        寄せ書きがすでに受け取られているため、メッセージの追加ができません。寄せ書き作成者に確認をとってください。
+      </section>
+    )
   return (
     <>
       {messageBordData.status === 'edit' ? (
