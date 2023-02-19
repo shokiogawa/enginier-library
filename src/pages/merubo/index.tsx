@@ -110,12 +110,15 @@ const Merubo: NextPage = () => {
           console.log('start uploadFile upload')
           image = await uploadImage(uploadFile, filePath)
         }
+        const currentDate = new Date()
         const message: Message = {
           id: messageId,
           userName: data.userName,
           content: data.content,
           thumbnail: thumbnail,
           image: image,
+          createdAt: currentDate,
+          updatedAt: currentDate,
         }
         const messageRef = doc(
           firebaseStore,
@@ -168,7 +171,7 @@ const Merubo: NextPage = () => {
                   {...register('userName', { required: true })}
                   type="text"
                   defaultValue={''}
-                  placeholder="小川翔生"
+                  placeholder="自分の名前を入力"
                 />
                 {errors.userName && <span>名前が入力されていません。</span>}
               </li>
@@ -185,6 +188,7 @@ const Merubo: NextPage = () => {
                 <label htmlFor="content">メッセージ</label>
                 <textarea
                   id="content"
+                  placeholder="送りたいメッセージを入力してください"
                   {...register('content', { required: true })}
                 ></textarea>
                 {errors.content && <span>メッセージが入力されていません</span>}

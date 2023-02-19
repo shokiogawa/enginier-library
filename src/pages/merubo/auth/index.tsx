@@ -7,20 +7,8 @@ import { firebaseAuth } from '../../../utility/firebase'
 const MeruboAuth: NextPage = () => {
   const router = useRouter()
   const email = router.query.email as string
-  // const search = useLocation().search
-  // const query = new URLSearchParams(search)
-  // const email = query.get('email')
   // メール認証
   const valifyEmailHandler = async (): Promise<void> => {
-    // const url = new URL(location.href)
-    // const params = url.searchParams
-    // console.log(params)
-    // params.delete('email')
-    // console.log(params)
-    // console.log(email)
-    // console.log(location.href)
-    // // TODO hrefからemalを取得
-    console.log('やあ')
     await signInWithEmailLink(
       firebaseAuth,
       'syouki2578@icloud.com',
