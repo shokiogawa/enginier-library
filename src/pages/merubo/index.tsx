@@ -1,5 +1,6 @@
 import { NextPage } from 'next'
 import React, { ChangeEvent, useState } from 'react'
+import Link from 'next/link'
 import { v4 } from 'uuid'
 import {
   Button,
@@ -202,6 +203,19 @@ const Merubo: NextPage = () => {
                 <button onClick={handleSubmit(handleClickOpen)}>
                   送信する
                 </button>
+              </li>
+              <li className="item">
+                <p>
+                  送信ボタンを押すと、
+                  <Link href={'/merubo/terms'}>
+                    <a>利用規約</a>
+                  </Link>
+                  と、{' '}
+                  <Link href={'/merubo/privacy-policy'}>
+                    <a>プライバシーポリシー</a>
+                  </Link>
+                  に同意したことになります。
+                </p>
               </li>
             </ul>
             <Dialog
